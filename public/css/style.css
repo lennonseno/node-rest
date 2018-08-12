@@ -1,0 +1,11 @@
+body {}
+
+.navbar {
+	margin-bottom: 2em;
+}
+
+.navbar-brand .logo {
+	width: 72px;
+	position: relative;
+	top: 5px;
+}
