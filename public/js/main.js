@@ -75,3 +75,37 @@ app.client.request = function(headers, path, method, qs, payload, callback) {
 	var payloadString = JSON.stringify(payload);
 	xhr.send(payloadString);
 };
+
+
+$('#accountCreate').on('submit', function(e) {
+	e.preventDefault();
+
+	var formId = this.id;
+	var action = this.action;
+	var method = this.method.toUpperCase();
+
+	// Hide previous error message
+	$(this).find('.alert').hide();
+	
+	var payload = {};
+	var elements = this.elements;
+	for (var i=0; i < elements.length; i++) {
+		if (elements[i].type !== 'submit') {
+			var v = (elements[i].type == 'checkbox') ? elements[i].checked : elements[i].value;
+			payload[elements[i].name] = v;
+		}
+	}
+
+	$.ajax({
+		url: action,
+		method: method,
+		data: JSON.stringify(payload),
+		dataType: 'json',
+		complete: function(e, xhr, settings) {
+			if (e.status !== 200) {
+				$('.alert').html(e.responseJSON.Error);
+				$('.alert').show();
+			}
+		}
+	});
+});
